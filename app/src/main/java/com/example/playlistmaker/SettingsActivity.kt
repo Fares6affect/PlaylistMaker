@@ -1,5 +1,7 @@
 package com.example.playlistmaker
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
@@ -8,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.net.URI
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +23,34 @@ class SettingsActivity : AppCompatActivity() {
             insets
         }
 
-        val arrowBack = findViewById<FrameLayout>(R.id.arrow_back)
+        val arrowBack = findViewById<ImageView>(R.id.arrowBack)
         arrowBack.setOnClickListener {
             finish()
+        }
+
+        val share = findViewById<FrameLayout>(R.id.share)
+        share.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_TEXT,getString(R.string.ref_educ))
+            startActivity(intent)
+        }
+
+        val support = findViewById<FrameLayout>(R.id.support)
+        support.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO)
+            intent.data = Uri.parse("mailto:")
+            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email)))
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.theme_message))
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.main_message))
+            startActivity(intent)
+        }
+
+        val doc = findViewById<FrameLayout>(R.id.doc)
+        doc.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setData(Uri.parse(getString(R.string.ref_doc)))
+            startActivity(intent)
         }
     }
 }

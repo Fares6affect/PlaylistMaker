@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
+    android:id="@+id/main"
+    style="@style/SetSerBack"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,23 +12,13 @@
         android:layout_marginBottom="24dp">
 
         <ImageView
-            android:id="@+id/arrow_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_arrow_back_48"
-            android:scaleType="center"
-            app:tint="@color/main_icon_text"
-            android:layout_gravity="center"
-            android:layout_marginStart="4dp"
-            android:clickable="true"/>
+            android:id="@+id/arrowBack"
+            style="@style/ArrowThemeActivity"
+            android:src="@drawable/ic_arrow_back_48"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/setting"
-            android:textColor="@color/main_icon_text"
-            android:textSize="@dimen/main_size"
-            android:layout_marginStart="12dp"/>
+            style="@style/TextThemeActivity"
+            android:text="@string/setting"/>
 
     </LinearLayout>
 
@@ -38,93 +27,65 @@
         android:layout_height="@dimen/set_height">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/night"
-            android:textColor="@color/black"
-            android:textSize="@dimen/set_size"
-            android:layout_marginStart="@dimen/set_marg_left"
-            android:layout_gravity="center_vertical|start"/>
+            style="@style/SettingActivityTextRev"
+            android:text="@string/night"/>
 
         <Switch
             android:layout_width="56dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical|end"
             android:switchMinWidth="56dp"
-            android:layout_marginEnd="6dp"/>
+            android:layout_marginEnd="6dp"
+            app:thumbTint="@color/switch_thumb_color_selector"
+            app:trackTint="@color/switch_track_color_selector"/>
 
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/share"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/set_height">
+        android:layout_height="@dimen/set_height"
+        android:clickable="true">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/share"
-            android:textColor="@color/black"
-            android:textSize="@dimen/set_size"
-            android:layout_marginStart="@dimen/set_marg_left"
-            android:layout_gravity="center_vertical|start"/>
+            style="@style/SettingActivityTextRev"
+            android:text="@string/share"/>
 
         <ImageView
-            android:layout_width="@dimen/set_icon_size"
-            android:layout_height="@dimen/set_icon_size"
-            android:src="@drawable/ic_share_24"
-            android:scaleType="center"
-            app:tint="@color/set_gray"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="@dimen/set_icon_marg_end"/>
-
+            style="@style/SettingActivityIconRev"
+            android:src="@drawable/ic_share_24"/>
 
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/support"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/set_height">
+        android:layout_height="@dimen/set_height"
+        android:clickable="true">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/help"
-            android:textColor="@color/black"
-            android:textSize="@dimen/set_size"
-            android:layout_marginStart="@dimen/set_marg_left"
-            android:layout_gravity="center_vertical|start"/>
+            style="@style/SettingActivityTextRev"
+            android:text="@string/help"/>
 
         <ImageView
-            android:layout_width="@dimen/set_icon_size"
-            android:layout_height="@dimen/set_icon_size"
-            android:src="@drawable/ic_support_24"
-            android:scaleType="center"
-            app:tint="@color/set_gray"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="@dimen/set_icon_marg_end"/>
+            style="@style/SettingActivityIconRev"
+            android:src="@drawable/ic_support_24"/>
 
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/doc"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/set_height">
+        android:layout_height="@dimen/set_height"
+        android:clickable="true">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginStart="@dimen/set_marg_left"
-            android:text="@string/doc"
-            android:textColor="@color/black"
-            android:textSize="@dimen/set_size" />
+            style="@style/SettingActivityTextRev"
+            android:text="@string/doc"/>
 
         <ImageView
-            android:layout_width="@dimen/set_icon_size"
-            android:layout_height="@dimen/set_icon_size"
-            android:src="@drawable/ic_arrow_forward_24"
-            android:scaleType="center"
-            app:tint="@color/set_gray"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="@dimen/set_icon_marg_end"/>
+            style="@style/SettingActivityIconRev"
+            android:src="@drawable/ic_arrow_forward_24"/>
 
     </FrameLayout>
 
