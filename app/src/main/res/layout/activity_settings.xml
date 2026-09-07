@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    style="@style/SetSerBack"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:id="@+id/arrowBack"
+            style="@style/ArrowThemeActivity"
+            android:src="@drawable/ic_arrow_back_48"/>
+
+        <TextView
+            style="@style/TextThemeActivity"
+            android:text="@string/setting"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/set_height">
+
+        <TextView
+            style="@style/SettingActivityTextRev"
+            android:text="@string/night"/>
+
+        <Switch
+            android:layout_width="56dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical|end"
+            android:switchMinWidth="56dp"
+            android:layout_marginEnd="6dp"
+            app:thumbTint="@color/switch_thumb_color_selector"
+            app:trackTint="@color/switch_track_color_selector"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/share"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/set_height"
+        android:clickable="true">
+
+        <TextView
+            style="@style/SettingActivityTextRev"
+            android:text="@string/share"/>
+
+        <ImageView
+            style="@style/SettingActivityIconRev"
+            android:src="@drawable/ic_share_24"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/support"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/set_height"
+        android:clickable="true">
+
+        <TextView
+            style="@style/SettingActivityTextRev"
+            android:text="@string/help"/>
+
+        <ImageView
+            style="@style/SettingActivityIconRev"
+            android:src="@drawable/ic_support_24"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/doc"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/set_height"
+        android:clickable="true">
+
+        <TextView
+            style="@style/SettingActivityTextRev"
+            android:text="@string/doc"/>
+
+        <ImageView
+            style="@style/SettingActivityIconRev"
+            android:src="@drawable/ic_arrow_forward_24"/>
+
+    </FrameLayout>
+
+</LinearLayout>
