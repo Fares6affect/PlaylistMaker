@@ -7,8 +7,8 @@
     <color name="set_sear_back_activity">#1A1B22</color>
     <color name="set_text_rev">#FFFFFF</color>
     <color name="set_icon_rev">#FFFFFF</color>
-    <color name="switch_thumb_color_selector">#3772E7</color>
-    <color name="switch_track_color_selector">#9FBBF3</color>
+    <color name="switch_thumb">#3772E7</color>
+    <color name="switch_track">#9FBBF3</color>
     <color name = "YP_Blue">#3772E7</color>
     <color name = "YP_Black">#1A1B22</color>
     <color name = "YP_Text_Gray">#AEAFB4</color>
