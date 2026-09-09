@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_size">22sp</dimen>
+    <dimen name="button_padding">8dp</dimen>
+    <dimen name="icon_padding">8dp</dimen>
+    <dimen name="set_size">16sp</dimen>
+    <dimen name="set_marg_left">16dp</dimen>
+    <dimen name="set_icon_size">24dp</dimen>
+    <dimen name="set_height">61dp</dimen>
+    <dimen name="set_icon_marg_end">12dp</dimen>
+    <dimen name="main_but_rad">16dp</dimen>
+    <dimen name="main_but_marg">8dp</dimen>
+</resources>
