@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="61dp"
+    android:paddingHorizontal="12dp"
+    android:gravity="center_vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/artwork"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:shapeAppearanceOverlay="@style/RoundedImageView"
+        android:scaleType="centerCrop"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="19dp"
+            android:textColor="@color/black_white"
+            android:textSize="16sp"
+            android:fontFamily="@font/ys_display_regular"
+            android:textFontWeight="400"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/author_time"
+            android:layout_width="match_parent"
+            android:layout_height="13dp"
+            android:textColor="@color/YP_Text_Gray_white"
+            android:textSize="11sp"
+            android:fontFamily="@font/ys_display_regular"
+            android:textFontWeight="400"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_arrow_forward_24"
+        android:scaleType="center"
+        android:tint="@color/YP_Text_Gray_white"/>
+
+</LinearLayout>
