@@ -5,88 +5,46 @@
     style="@style/SetSerBack"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        app:title="@string/setting"
+        app:titleTextAppearance="@style/Toolbar"
+        app:navigationIcon="@drawable/ic_arrow_back_24"
+        app:navigationIconTint="@color/theme_text_activity"
+        />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
         android:gravity="center_vertical"
-        android:layout_marginBottom="24dp">
+        android:paddingHorizontal="16dp"
+        android:text="@string/dark_theme"
+        android:textSize="16sp"
+        android:fontFamily="@font/ys_display_regular"
+        android:textFontWeight="400"
+        android:textColor="@color/set_text_rev"/>
 
-        <ImageView
-            android:id="@+id/arrowBack"
-            style="@style/ArrowThemeActivity"
-            android:src="@drawable/ic_arrow_back_48"/>
-
-        <TextView
-            style="@style/TextThemeActivity"
-            android:text="@string/setting"/>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/set_height">
-
-        <TextView
-            style="@style/SettingActivityTextRev"
-            android:text="@string/night"/>
-
-        <Switch
-            android:layout_width="56dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical|end"
-            android:switchMinWidth="56dp"
-            android:layout_marginEnd="6dp"
-            app:thumbTint="@color/switch_thumb"
-            app:trackTint="@color/switch_track"/>
-
-    </FrameLayout>
-
-    <FrameLayout
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/share"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/set_height"
-        android:clickable="true">
+        style="@style/SettingMaterialView"
+        android:drawableEnd="@drawable/ic_share_24"
+        android:text="@string/share"
+        />
 
-        <TextView
-            style="@style/SettingActivityTextRev"
-            android:text="@string/share"/>
-
-        <ImageView
-            style="@style/SettingActivityIconRev"
-            android:src="@drawable/ic_share_24"/>
-
-    </FrameLayout>
-
-    <FrameLayout
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/support"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/set_height"
-        android:clickable="true">
+        style="@style/SettingMaterialView"
+        android:drawableEnd="@drawable/ic_support_24"
+        android:text="@string/support"
+        />
 
-        <TextView
-            style="@style/SettingActivityTextRev"
-            android:text="@string/help"/>
-
-        <ImageView
-            style="@style/SettingActivityIconRev"
-            android:src="@drawable/ic_support_24"/>
-
-    </FrameLayout>
-
-    <FrameLayout
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/doc"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/set_height"
-        android:clickable="true">
-
-        <TextView
-            style="@style/SettingActivityTextRev"
-            android:text="@string/doc"/>
-
-        <ImageView
-            style="@style/SettingActivityIconRev"
-            android:src="@drawable/ic_arrow_forward_24"/>
-
-    </FrameLayout>
+        style="@style/SettingMaterialView"
+        android:drawableEnd="@drawable/ic_arrow_forward_24"
+        android:text="@string/doc"
+        />
 
 </LinearLayout>

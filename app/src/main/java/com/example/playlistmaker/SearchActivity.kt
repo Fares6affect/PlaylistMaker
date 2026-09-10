@@ -13,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.appbar.MaterialToolbar
 
 class SearchActivity : AppCompatActivity() {
     var editTextInfo:String?=""
@@ -26,21 +27,14 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-        val arrowBack = findViewById<ImageView>(R.id.arrowBack)
-        arrowBack.setOnClickListener {
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener {
             finish()
         }
 
-        val searchButton = findViewById<ImageView>(R.id.searchButton)
         val editTextLine = findViewById<EditText>(R.id.EditTextLine)
         val clearButton = findViewById<ImageView>(R.id.clearButton)
         editTextLine.setText(editTextInfo)
-
-        searchButton.setOnClickListener {
-            editTextLine.requestFocus()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(editTextLine, InputMethodManager.SHOW_IMPLICIT)
-        }
 
         val textWatcherOnLineSearch = object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

@@ -3,9 +3,9 @@
     <string name="search">Поиск</string>
     <string name="media">Медиатека</string>
     <string name="setting">Настройки</string>
-    <string name="night">Темная тема</string>
+    <string name="dark_theme">Темная тема</string>
     <string name="share">Поделиться приложением</string>
-    <string name="help">Написать в поддержку</string>
+    <string name="support">Написать в поддержку</string>
     <string name="doc">Пользовательское соглашение</string>
     <string name="email">pioneer.of.galaxies@gmail.com</string>
     <string name="theme_message">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
