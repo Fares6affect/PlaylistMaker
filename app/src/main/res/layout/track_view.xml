@@ -18,7 +18,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingHorizontal="8dp"
         android:orientation="vertical">
@@ -26,7 +26,7 @@
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="19dp"
+            android:layout_height="wrap_content"
             android:textColor="@color/black_white"
             android:textSize="16sp"
             android:fontFamily="@font/ys_display_regular"
@@ -34,16 +34,39 @@
             android:ellipsize="end"
             android:maxLines="1"/>
 
-        <TextView
-            android:id="@+id/author_time"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="13dp"
-            android:textColor="@color/YP_Text_Gray_white"
-            android:textSize="11sp"
-            android:fontFamily="@font/ys_display_regular"
-            android:textFontWeight="400"
-            android:ellipsize="end"
-            android:maxLines="1"/>
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="120dp"
+                android:textColor="@color/YP_Text_Gray_white"
+                android:textSize="11sp"
+                android:fontFamily="@font/ys_display_regular"
+                android:textFontWeight="400"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_ellipse_13"
+                app:tint="@color/YP_Text_Gray_white"
+                />
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/YP_Text_Gray_white"
+                android:textSize="11sp"
+                android:fontFamily="@font/ys_display_regular"
+                android:textFontWeight="400"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -53,6 +76,6 @@
         android:layout_height="24dp"
         android:src="@drawable/ic_arrow_forward_24"
         android:scaleType="center"
-        android:tint="@color/YP_Text_Gray_white"/>
+        app:tint="@color/YP_Text_Gray_white"/>
 
 </LinearLayout>
