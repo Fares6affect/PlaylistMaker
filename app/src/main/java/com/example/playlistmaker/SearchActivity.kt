@@ -6,7 +6,9 @@ import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Adapter
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
@@ -16,10 +18,29 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.random.Random
+import android.content.res.Configuration
+import android.widget.Button
+import android.widget.LinearLayout
 
 class SearchActivity : AppCompatActivity() {
+
+    private val iTunesUrl = "https://itunes.apple.com"
+    private val retrofit = Retrofit.Builder().baseUrl(iTunesUrl).addConverterFactory(
+        GsonConverterFactory.create()).build()
+    private val iTunesService = retrofit.create(ITunesApi::class.java)
+    private lateinit var recycler: RecyclerView
+
+    private lateinit var placeholderError: LinearLayout
+    private lateinit var placeholderEmpty: LinearLayout
+    private  var lastQuery:String =""
     var editTextInfo:String?=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,6 +56,9 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
+        placeholderError = findViewById<LinearLayout>(R.id.placeholderError)
+        placeholderEmpty = findViewById<LinearLayout>(R.id.placeholderEmpty)
+
         val editTextLine = findViewById<EditText>(R.id.EditTextLine)
         val clearButton = findViewById<ImageView>(R.id.clearButton)
         editTextLine.setText(editTextInfo)
@@ -43,9 +67,6 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
-                } else {
-                }
                 editTextInfo = s?.toString()?:""
                 clearButton.visibility = clearButtonVisibility(s)
             }
@@ -60,21 +81,45 @@ class SearchActivity : AppCompatActivity() {
             val editTextLine = findViewById<EditText>(R.id.EditTextLine)
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(editTextLine.windowToken, 0)
+            recycler.visibility = View.GONE
+            placeholderEmpty.visibility = View.GONE
+            placeholderError.visibility = View.GONE
         }
 
-        val recycler = findViewById<RecyclerView>(R.id.tracksList)
-        val mockObjects = mutableListOf<Track>()
-        mockObjects.add(Track("Smells Like Teen Spirit","Nirvana","5:01","https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg"))
-        mockObjects.add(Track("Billie Jean","Michael Jackson","4:35","https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"))
-        mockObjects.add(Track("Stayin' Alive","Bee Gees","4:10","https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"))
-        mockObjects.add(Track("Whole Lotta Love","Led Zeppelin","5:33","https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"))
-        mockObjects.add(Track("Sweet Child O'Mine","Guns N' Roses","5:03","https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"))
+        val refreshButton = findViewById<Button>(R.id.refreshButton)
+        refreshButton.setOnClickListener {
+            searchData(lastQuery)
+        }
+
+        recycler = findViewById<RecyclerView>(R.id.tracksList)
         recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter= TrackAdapter(
-            tracks = List(20){
-                mockObjects[Random.nextInt(5)]
+
+        editTextLine.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                lastQuery = editTextLine.text.toString().trim()
+                searchData(lastQuery)
+                true
             }
+            else
+                false
+        }
+
+        val placeholderErrorImage = findViewById<ImageView>(R.id.placeholderErrorImage)
+        placeholderErrorImage.setImageResource(
+            if ((resources.configuration.uiMode and
+                        Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            ) R.drawable.placeholder_error_night
+            else R.drawable.placeholder_error_light
         )
+
+        val placeholderEmptyImage = findViewById<ImageView>(R.id.placeholderEmptyImage)
+        placeholderEmptyImage.setImageResource(
+            if ((resources.configuration.uiMode and
+                        Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            ) R.drawable.placeholder_empty_night
+            else R.drawable.placeholder_empty_light
+        )
+
     }
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
@@ -96,5 +141,40 @@ class SearchActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         editTextInfo = savedInstanceState.getString(EDIT_TEXT_INFO)
+    }
+
+    fun searchData(query: String){
+        if(query.isNotEmpty())
+            iTunesService.search(query).enqueue(object : Callback<TrackResponse>{
+                override fun onResponse(
+                    call: Call<TrackResponse?>,
+                    response: Response<TrackResponse?>
+                ) {
+                    if(response.code()==200)
+                        if(response.body()?.results?.isNotEmpty()==true){
+                            val testData = listOf(Track(null,null,null,null))
+                            recycler.adapter = TrackAdapter(response.body()?.results?:emptyList())
+                            recycler.visibility = View.VISIBLE
+                            placeholderEmpty.visibility = View.GONE
+                            placeholderError.visibility = View.GONE
+                        }else{
+                            recycler.visibility = View.GONE
+                            placeholderEmpty.visibility = View.VISIBLE
+                            placeholderError.visibility = View.GONE
+                        }
+                    else{
+                        recycler.visibility = View.GONE
+                        placeholderEmpty.visibility = View.GONE
+                        placeholderError.visibility = View.VISIBLE
+                    }
+                }
+
+                override fun onFailure(call: Call<TrackResponse?>, t: Throwable) {
+                    recycler.visibility = View.GONE
+                    placeholderEmpty.visibility = View.GONE
+                    placeholderError.visibility = View.VISIBLE
+                }
+            }
+            )
     }
 }
