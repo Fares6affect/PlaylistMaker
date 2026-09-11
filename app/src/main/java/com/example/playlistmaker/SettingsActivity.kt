@@ -10,6 +10,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.textview.MaterialTextView
 import java.net.URI
 
 class SettingsActivity : AppCompatActivity() {
@@ -23,12 +25,12 @@ class SettingsActivity : AppCompatActivity() {
             insets
         }
 
-        val arrowBack = findViewById<ImageView>(R.id.arrowBack)
-        arrowBack.setOnClickListener {
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener {
             finish()
         }
 
-        val share = findViewById<FrameLayout>(R.id.share)
+        val share = findViewById<MaterialTextView>(R.id.share)
         share.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
@@ -36,7 +38,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val support = findViewById<FrameLayout>(R.id.support)
+        val support = findViewById<MaterialTextView>(R.id.support)
         support.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
             intent.data = Uri.parse("mailto:")
@@ -46,7 +48,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val doc = findViewById<FrameLayout>(R.id.doc)
+        val doc = findViewById<MaterialTextView>(R.id.doc)
         doc.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.setData(Uri.parse(getString(R.string.ref_doc)))
