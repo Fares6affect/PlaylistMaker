@@ -5,6 +5,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val artworkView: ImageView
@@ -20,10 +22,9 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     }
 
     fun bind(track:Track){
-        Glide.with(itemView).load(track.artworkUrl100).placeholder(R.drawable.ic_artwork_45).into(artworkView)
-        title.text=track.trackName
-        author.text=track.artistName
-        time.text=track.trackTime
+        Glide.with(itemView).load(track.artworkUrl100?:"").placeholder(R.drawable.ic_artwork_45).into(artworkView)
+        title.text=track.trackName?:"title"
+        author.text=track.artistName?:"author"
+        time.text= SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis?:0L)
     }
-
 }
