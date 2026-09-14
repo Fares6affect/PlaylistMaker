@@ -11,8 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
 import java.net.URI
+
+val PLAYLIST_MAKER_PREFERENCES="playlist_maker_preferences"
+val NIGHT_MODE="night_mode"
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,9 +29,20 @@ class SettingsActivity : AppCompatActivity() {
             insets
         }
 
+        val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES,MODE_PRIVATE)
+
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener {
             finish()
+        }
+
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+        themeSwitcher.isChecked = sharedPrefs.getBoolean(NIGHT_MODE,false)
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
+            sharedPrefs.edit()
+                .putBoolean(NIGHT_MODE, checked)
+                .apply()
         }
 
         val share = findViewById<MaterialTextView>(R.id.share)

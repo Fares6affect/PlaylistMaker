@@ -2,13 +2,11 @@ package com.example.playlistmaker
 
 import android.content.Context
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Adapter
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
@@ -23,7 +21,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.random.Random
 import android.content.res.Configuration
 import android.widget.Button
 import android.widget.LinearLayout
@@ -104,22 +101,6 @@ class SearchActivity : AppCompatActivity() {
                 false
         }
 
-        val placeholderErrorImage = findViewById<ImageView>(R.id.placeholderErrorImage)
-        placeholderErrorImage.setImageResource(
-            if ((resources.configuration.uiMode and
-                        Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-            ) R.drawable.placeholder_error_night
-            else R.drawable.placeholder_error_light
-        )
-
-        val placeholderEmptyImage = findViewById<ImageView>(R.id.placeholderEmptyImage)
-        placeholderEmptyImage.setImageResource(
-            if ((resources.configuration.uiMode and
-                        Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-            ) R.drawable.placeholder_empty_night
-            else R.drawable.placeholder_empty_light
-        )
-
     }
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
@@ -150,9 +131,8 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<TrackResponse?>,
                     response: Response<TrackResponse?>
                 ) {
-                    if(response.code()==200)
+                    if(response.isSuccessful)
                         if(response.body()?.results?.isNotEmpty()==true){
-                            val testData = listOf(Track(null,null,null,null))
                             recycler.adapter = TrackAdapter(response.body()?.results?:emptyList())
                             recycler.visibility = View.VISIBLE
                             placeholderEmpty.visibility = View.GONE
