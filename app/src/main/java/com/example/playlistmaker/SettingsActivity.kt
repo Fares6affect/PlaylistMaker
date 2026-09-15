@@ -29,13 +29,12 @@ class SettingsActivity : AppCompatActivity() {
             insets
         }
 
-        val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES,MODE_PRIVATE)
-
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener {
             finish()
         }
 
+        val sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES,MODE_PRIVATE)
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
         themeSwitcher.isChecked = sharedPrefs.getBoolean(NIGHT_MODE,false)
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->

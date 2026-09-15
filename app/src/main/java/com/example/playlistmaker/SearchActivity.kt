@@ -1,6 +1,8 @@
 package com.example.playlistmaker
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,7 +26,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.content.res.Configuration
 import android.widget.Button
 import android.widget.LinearLayout
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.gson.Gson
 
+
+val PLAYLIST_MAKER_HISTORY = "playlist_maker_history"
+val HISTORY_SEARCH = "history_search"
 class SearchActivity : AppCompatActivity() {
 
     private val iTunesUrl = "https://itunes.apple.com"
@@ -35,6 +42,11 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var placeholderError: LinearLayout
     private lateinit var placeholderEmpty: LinearLayout
+    private lateinit var searchHistory: SearchHistory
+    private lateinit var historyAdapter: TrackAdapter
+    private lateinit var searchAdapter: TrackAdapter
+    private lateinit var historyBlock: LinearLayout
+    private lateinit var editTextLine: EditText
     private  var lastQuery:String =""
     var editTextInfo:String?=""
 
@@ -53,12 +65,26 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
+        val sharedPrefHistory = getSharedPreferences(PLAYLIST_MAKER_HISTORY,MODE_PRIVATE)
+        searchHistory = SearchHistory(sharedPrefHistory)
+
         placeholderError = findViewById<LinearLayout>(R.id.placeholderError)
         placeholderEmpty = findViewById<LinearLayout>(R.id.placeholderEmpty)
 
-        val editTextLine = findViewById<EditText>(R.id.EditTextLine)
+        editTextLine = findViewById<EditText>(R.id.EditTextLine)
         val clearButton = findViewById<ImageView>(R.id.clearButton)
         editTextLine.setText(editTextInfo)
+
+        historyBlock = findViewById<LinearLayout>(R.id.historyBlock)
+
+        val historyList = findViewById<RecyclerView>(R.id.historyList)
+        historyList.layoutManager = LinearLayoutManager(this)
+        historyAdapter = TrackAdapter(searchHistory.read().toList(),{track ->
+            searchHistory.add(track)
+            historyAdapter.setTracks(searchHistory.read().toList())
+            updateHistoryBlockVis()
+        })
+        historyList.adapter = historyAdapter
 
         val textWatcherOnLineSearch = object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -66,6 +92,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 editTextInfo = s?.toString()?:""
                 clearButton.visibility = clearButtonVisibility(s)
+                updateHistoryBlockVis()
             }
             override fun afterTextChanged(s: Editable?) {
             }
@@ -101,6 +128,15 @@ class SearchActivity : AppCompatActivity() {
                 false
         }
 
+        val searchClearButton = findViewById<Button>(R.id.searchClearButton)
+        searchClearButton.setOnClickListener {
+            searchHistory.clear()
+            historyAdapter.setTracks(emptyList())
+            updateHistoryBlockVis()
+        }
+        editTextLine.setOnFocusChangeListener { view, hasFocus ->
+            updateHistoryBlockVis()
+        }
     }
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
@@ -133,7 +169,12 @@ class SearchActivity : AppCompatActivity() {
                 ) {
                     if(response.isSuccessful)
                         if(response.body()?.results?.isNotEmpty()==true){
-                            recycler.adapter = TrackAdapter(response.body()?.results?:emptyList())
+                            searchAdapter = TrackAdapter(response.body()?.results?:emptyList(),{track ->
+                                searchHistory.add(track)
+                                historyAdapter.setTracks(searchHistory.read().toList())
+                                searchAdapter.notifyDataSetChanged()
+                            })
+                            recycler.adapter = searchAdapter
                             recycler.visibility = View.VISIBLE
                             placeholderEmpty.visibility = View.GONE
                             placeholderError.visibility = View.GONE
@@ -156,5 +197,10 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
             )
+    }
+    fun updateHistoryBlockVis(){
+        historyBlock.visibility = if(editTextLine.hasFocus()
+            && editTextLine.text?.isEmpty()==true
+            && searchHistory.read().isNotEmpty()) View.VISIBLE else View.GONE
     }
 }
