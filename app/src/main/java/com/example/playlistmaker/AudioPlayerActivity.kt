@@ -14,7 +14,17 @@ import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.imageview.ShapeableImageView
+import java.text.SimpleDateFormat
+import java.util.Locale
 
+val TRACK_NAME = "trackName"
+val ARTIST_NAME = "artistName"
+val TRACK_TIME_MILLIS = "trackTimeMillis"
+val ARTWORK_URL = "artworkUrl100"
+val COLLECTION_NAME = "collectionName"
+val RELEASE_DATE = "releaseDate"
+val PRIMARY_GENRE_NAME = "primaryGenreName"
+val COUNTRY = "country"
 class AudioPlayerActivity: AppCompatActivity() {
 
     var fPause = false
@@ -22,6 +32,8 @@ class AudioPlayerActivity: AppCompatActivity() {
 
     var fLike = false
         private set
+
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,31 +50,31 @@ class AudioPlayerActivity: AppCompatActivity() {
             finish()
         }
 
-        Glide.with(this).load(intent.getStringExtra("artworkUrl100")?:"").placeholder(R.drawable.album_placeholder).into(findViewById<ShapeableImageView>(R.id.artwork))
+        Glide.with(this).load(intent.getStringExtra(ARTWORK_URL)?:"").placeholder(R.drawable.album_placeholder).into(findViewById<ShapeableImageView>(R.id.artwork))
 
-        findViewById<TextView>(R.id.trackName).setText(intent.getStringExtra("trackName"))
+        findViewById<TextView>(R.id.trackName).setText(intent.getStringExtra(TRACK_NAME))
 
-        findViewById<TextView>(R.id.artistName).setText(intent.getStringExtra("artistName"))
+        findViewById<TextView>(R.id.artistName).setText(intent.getStringExtra(ARTIST_NAME))
 
-        findViewById<TextView>(R.id.time).setText("00:00")
+        findViewById<TextView>(R.id.time).setText(dateFormat.format(0L))
 
-        findViewById<TextView>(R.id.durationValue).setText(intent.getStringExtra("trackTimeMillis"))
+        findViewById<TextView>(R.id.durationValue).setText(intent.getStringExtra(TRACK_TIME_MILLIS))
 
-        val alb = intent.getStringExtra("collectionName")
+        val alb = intent.getStringExtra(COLLECTION_NAME)
         if(alb.isNullOrEmpty())
             findViewById<Group>(R.id.albumGroup).visibility = View.GONE
         else
             findViewById<TextView>(R.id.albumValue).setText(alb)
 
-        val year = intent.getStringExtra("releaseDate")?.substring(0,4)
+        val year = intent.getStringExtra(RELEASE_DATE)?.substring(0,4)
         if(year.isNullOrEmpty())
             findViewById<Group>(R.id.yearGroup).visibility = View.GONE
         else
             findViewById<TextView>(R.id.yearValue).setText(year)
 
-        findViewById<TextView>(R.id.genreValue).setText(intent.getStringExtra("primaryGenreName"))
+        findViewById<TextView>(R.id.genreValue).setText(intent.getStringExtra(PRIMARY_GENRE_NAME))
 
-        findViewById<TextView>(R.id.countryValue).setText(intent.getStringExtra("country"))
+        findViewById<TextView>(R.id.countryValue).setText(intent.getStringExtra(COUNTRY))
 
         val pauseResumeButton = findViewById<ImageButton>(R.id.pauseResumeButton)
         pauseResumeButton.setOnClickListener {
