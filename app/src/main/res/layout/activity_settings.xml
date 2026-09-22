@@ -16,8 +16,9 @@
         />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/themeSwitcher"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingHorizontal="16dp"
         android:text="@string/dark_theme"
