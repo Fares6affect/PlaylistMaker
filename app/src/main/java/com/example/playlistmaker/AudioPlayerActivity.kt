@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.imageview.ShapeableImageView
 
 class AudioPlayerActivity: AppCompatActivity() {
 
@@ -37,7 +38,7 @@ class AudioPlayerActivity: AppCompatActivity() {
             finish()
         }
 
-        Glide.with(this).load(intent.getStringExtra("artworkUrl100")?:"").placeholder(R.drawable.album_placeholder).into(findViewById<ImageView>(R.id.artwork))
+        Glide.with(this).load(intent.getStringExtra("artworkUrl100")?:"").placeholder(R.drawable.album_placeholder).into(findViewById<ShapeableImageView>(R.id.artwork))
 
         findViewById<TextView>(R.id.trackName).setText(intent.getStringExtra("trackName"))
 
