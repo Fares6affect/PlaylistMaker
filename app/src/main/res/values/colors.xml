@@ -15,4 +15,5 @@
     <color name = "YP_Text_Gray">#AEAFB4</color>
     <color name="search_line">#E6E8EB</color>
     <color name="search_icon_text">#AEAFB4</color>
+    <color name="audio_but_back">#1A1B22</color>
 </resources>
