@@ -28,16 +28,8 @@ class TrackAdapter(
             val track = tracks[position]
             clickTrack(track)
             val context = holder.itemView.context
-            val intent = Intent(context, AudioPlayerActivity::class.java).apply {
-                putExtra(TRACK_NAME,track.trackName)
-                putExtra(ARTIST_NAME,track.artistName)
-                putExtra(TRACK_TIME_MILLIS,dateFormat.format(track.trackTimeMillis?:0L))
-                putExtra(ARTWORK_URL,track.artworkUrl100?.replaceAfterLast('/',"512x512bb.jpg"))
-                putExtra(COLLECTION_NAME,track.collectionName)
-                putExtra(RELEASE_DATE,track.releaseDate)
-                putExtra(PRIMARY_GENRE_NAME,track.primaryGenreName)
-                putExtra(COUNTRY,track.country)
-            }
+            val intent = Intent(context, AudioPlayerActivity::class.java)
+            intent.putExtra("track",track)
             context.startActivity(intent)
         }
     }

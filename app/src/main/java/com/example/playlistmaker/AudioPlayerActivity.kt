@@ -50,31 +50,34 @@ class AudioPlayerActivity: AppCompatActivity() {
             finish()
         }
 
-        Glide.with(this).load(intent.getStringExtra(ARTWORK_URL)?:"").placeholder(R.drawable.album_placeholder).into(findViewById<ShapeableImageView>(R.id.artwork))
+        val track = intent.getParcelableExtra<Track>("track")
 
-        findViewById<TextView>(R.id.trackName).setText(intent.getStringExtra(TRACK_NAME))
+        Glide.with(this).load(track?.artworkUrl100?.replaceAfterLast('/',"512x512bb.jpg")
+        ).placeholder(R.drawable.album_placeholder).into(findViewById<ShapeableImageView>(R.id.artwork))
 
-        findViewById<TextView>(R.id.artistName).setText(intent.getStringExtra(ARTIST_NAME))
+        findViewById<TextView>(R.id.trackName).setText(track?.trackName)
+
+        findViewById<TextView>(R.id.artistName).setText(track?.artistName)
 
         findViewById<TextView>(R.id.time).setText(dateFormat.format(0L))
 
-        findViewById<TextView>(R.id.durationValue).setText(intent.getStringExtra(TRACK_TIME_MILLIS))
+        findViewById<TextView>(R.id.durationValue).setText(dateFormat.format(track?.trackTimeMillis?:0L))
 
-        val alb = intent.getStringExtra(COLLECTION_NAME)
+        val alb = track?.collectionName
         if(alb.isNullOrEmpty())
             findViewById<Group>(R.id.albumGroup).visibility = View.GONE
         else
             findViewById<TextView>(R.id.albumValue).setText(alb)
 
-        val year = intent.getStringExtra(RELEASE_DATE)?.substring(0,4)
+        val year = track?.releaseDate?.substring(0,4)
         if(year.isNullOrEmpty())
             findViewById<Group>(R.id.yearGroup).visibility = View.GONE
         else
             findViewById<TextView>(R.id.yearValue).setText(year)
 
-        findViewById<TextView>(R.id.genreValue).setText(intent.getStringExtra(PRIMARY_GENRE_NAME))
+        findViewById<TextView>(R.id.genreValue).setText(track?.primaryGenreName)
 
-        findViewById<TextView>(R.id.countryValue).setText(intent.getStringExtra(COUNTRY))
+        findViewById<TextView>(R.id.countryValue).setText(track?.country)
 
         val pauseResumeButton = findViewById<ImageButton>(R.id.pauseResumeButton)
         pauseResumeButton.setOnClickListener {
